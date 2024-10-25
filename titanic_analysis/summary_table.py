@@ -1,11 +1,19 @@
+import pandas as pd
+
 def create_summary_table(df):
-    """
-    Creates a summary DataFrame with feature name, data type, number of unique values, and if it has missing values.
+    # Create a new DataFrame to hold the summary information
+    summary_df = pd.DataFrame({
+        'Feature Name': df.columns,  # Column names
+        'Data Type': [df[col].dtype for col in df.columns],  # Data type for each column
+        'Number of Unique Values': [df[col].nunique() for col in df.columns],  # Number of unique values for each column
+        'Has Missing Values?': [df[col].isnull().any() for col in df.columns]  # Check if any column has missing values
+    })
     
-    Args:
-        df (pd.DataFrame): The Titanic dataset as a DataFrame.
+    # Ensure the columns are in the correct order
+    summary_df = summary_df[['Feature Name', 'Data Type', 'Number of Unique Values', 'Has Missing Values?']]
     
-    Returns:
-        pd.DataFrame: A summary DataFrame.
-    """
-    pass  # Implement the logic here
+    # Debug: Print column names for verification
+    print("Columns in summary_df:", summary_df.columns.tolist())
+    
+    # Return the summary DataFrame containing the required information
+    return summary_df
